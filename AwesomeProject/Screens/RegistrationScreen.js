@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Button } fr
 import * as Font from 'expo-font';
 import { useEffect } from 'react';
 
-export default function Login() {
+export default function Register() {
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
@@ -20,7 +20,12 @@ export default function Login() {
     <View style={styles.body}>
       <Image source={require('./images/background.jpg')} style={styles.backgroundImage} />
       <View style={styles.container}>
-        <Text style={styles.title}>{'Sign In'}</Text>
+        <View style={styles.avatar}></View>
+        <Text style={styles.title}>{'Registration'}</Text>
+        <TextInput
+          style={[styles.input, styles.firstInput]}
+          placeholder="User Name"
+        />
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -30,11 +35,11 @@ export default function Login() {
           placeholder="Password"
         />
         <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed')}>
-          <Text style={styles.buttonText}>Sign In</Text>
+          <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.link} onPress={() => console.log('Button pressed')}>
-          <Text style={styles.linkText}>Don't have an account? Sign up</Text>
+          <Text style={styles.linkText}>Already have an account? Sign In</Text>
         </TouchableOpacity>
         
       </View>
