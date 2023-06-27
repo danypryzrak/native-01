@@ -1,8 +1,21 @@
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Button } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
 import * as Font from 'expo-font';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Register() {
+
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
@@ -16,25 +29,41 @@ export default function Register() {
     loadFonts();
   }, []);
 
+  const [login, setLogin] = useState()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+
+  const onRegister = () => {
+    console.log("UserName:", login)
+    console.log('Email:', email )
+    console.log('Password', password)
+  };
+
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.body}>
       <Image source={require('./images/background.jpg')} style={styles.backgroundImage} />
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
+        <View style={styles.container}>
         <View style={styles.avatar}></View>
         <Text style={styles.title}>{'Registration'}</Text>
         <TextInput
           style={[styles.input, styles.firstInput]}
+          onChangeText={setLogin}
           placeholder="User Name"
         />
-        <TextInput
+            <TextInput
+              keyboardType='email-address'
           style={styles.input}
+          onChangeText={setEmail}
           placeholder="Email"
         />
         <TextInput
           style={styles.input}
+          onChangeText={setPassword}
           placeholder="Password"
         />
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed')}>
+        <TouchableOpacity style={styles.button} onPress={() => onRegister()}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
 
@@ -42,23 +71,19 @@ export default function Register() {
           <Text style={styles.linkText}>Already have an account? Sign In</Text>
         </TouchableOpacity>
         
+        </View>
+      </KeyboardAvoidingView>  
       </View>
-    </View>
+      </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'flex-end',
-    backgroundColor: '#fff',
-    alignItems: 'center',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    borderBottomRightRadius: 25,
-    borderBottomLeftRadius: 25
   },
   backgroundImage: {
     resizeMode: 'cover',
@@ -67,12 +92,12 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   container: {
+    paddingBottom: 48,
     alignItems: 'center',
     backgroundColor: '#fff',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     width: '100%',
-    height: '66%',
   },
   avatar: {
     width: 120,
