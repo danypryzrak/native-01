@@ -1,6 +1,6 @@
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Button, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import * as Font from 'expo-font';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Login() {
   useEffect(() => {
@@ -16,45 +16,56 @@ export default function Login() {
     loadFonts();
   }, []);
 
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+
+  const onLogin = () => {
+    console.log('Email:', email )
+    console.log('Password:', password)
+  };
+
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.body}>
       <Image source={require('./images/background.jpg')} style={styles.backgroundImage} />
-      <View style={styles.container}>
-        <View style={styles.avatar}></View>
-        <Text style={styles.title}>{'Registration'}</Text>
+      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
+      
+        <View style={styles.container}>
+        
+        <Text style={styles.title}>{'Sign In'}</Text>
+            <TextInput
+              keyboardType='email-address'
+              style={styles.input}
+              onChangeText={setEmail}
+              placeholder="Email"
+            />
         <TextInput
-          style={styles.input}
-          placeholder="Email"
-        />
-        <TextInput
-          style={styles.input}
+              style={styles.input}
+              onChangeText={setPassword}
           placeholder="Password"
         />
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Button pressed')}>
-          <Text style={styles.buttonText}>Register</Text>
+        <TouchableOpacity style={styles.button} onPress={() => onLogin()}>
+          <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.link} onPress={() => console.log('Button pressed')}>
-          <Text style={styles.linkText}>Already have an account? Log in</Text>
+          <Text style={styles.linkText}>Don't have an account? Sign up</Text>
         </TouchableOpacity>
         
+          </View>
+      </KeyboardAvoidingView>
+          
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'flex-end',
-    backgroundColor: '#fff',
-    alignItems: 'center',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    borderBottomRightRadius: 25,
-    borderBottomLeftRadius: 25
   },
   backgroundImage: {
     resizeMode: 'cover',
@@ -68,14 +79,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     width: '100%',
-    height: '66%',
-  },
-  avatar: {
-    width: 120,
-    height: 120,
-    backgroundColor: '#F6F6F6',
-    borderRadius: 16,
-    marginTop: -60,
+    paddingBottom: 144,
   },
   title: {
     marginTop: 32,
